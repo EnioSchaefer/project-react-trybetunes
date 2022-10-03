@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createUser } from '../services/userAPI';
-import Loading from './Loading';
+import Loading from '../components/Loading';
 
 class Login extends Component {
   constructor() {
@@ -21,7 +21,6 @@ class Login extends Component {
       this.setState({
         name: event.target.value,
         buttonDisabled: event.target.value.length < minChar,
-
       });
     };
 
