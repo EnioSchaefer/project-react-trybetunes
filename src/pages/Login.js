@@ -25,20 +25,15 @@ class Login extends Component {
       });
     };
 
-    const onLogin = () => {
+    const onLogin = async () => {
       const { history } = this.props;
-      createUser({ name });
-      const waitTime = 1501;
 
-      this.setState({
-        isLoading: true,
-      });
+      this.setState({ isLoading: true });
 
-      setTimeout(() => {
-        this.setState({ isLoading: false });
+      await createUser({ name });
 
-        history.push('/search');
-      }, waitTime);
+      this.setState({ isLoading: false });
+      history.push('/search');
     };
 
     if (isLoading === true) return <Loading />;
