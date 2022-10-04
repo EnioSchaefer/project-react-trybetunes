@@ -38,8 +38,6 @@ class Search extends Component {
 
       const response = await searchAlbumsAPI(inputText);
 
-      console.log(response);
-
       this.setState({
         isLoading: false,
         searchResponse: (response.length === 0 ? false : JSON.stringify(response)),
