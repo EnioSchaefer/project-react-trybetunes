@@ -23,13 +23,7 @@ class Album extends Component {
 
     const albumName = data[0].collectionName;
 
-    const musics = data.filter((_element, index) => index !== 0);
-
-    const musicsData = musics.map((music) => ({
-      musicName: music.trackName,
-      musicPreview: music.previewUrl,
-      musicArt: music.artworkUrl100,
-    }));
+    const musicsData = data.filter((_element, index) => index !== 0);
 
     this.setState({
       artistName: name,
