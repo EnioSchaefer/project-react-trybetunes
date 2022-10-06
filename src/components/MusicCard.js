@@ -56,7 +56,6 @@ class MusicCard extends Component {
     };
 
     if (isLoading === true) return <Loading />;
-    const exists = !!isChecked;
     return (
       <div>
         <img src={ albumArtwork } alt={ `Artwork de ${albumName}` } />
@@ -73,7 +72,7 @@ class MusicCard extends Component {
                 id={ index }
                 onChange={ favoriteSong }
                 value={ music.trackId }
-                checked={ exists ? isChecked[index] : false }
+                checked={ isChecked ? isChecked[index] : false }
               />
             </label>
 
