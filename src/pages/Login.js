@@ -26,13 +26,14 @@ class Login extends Component {
 
     const onLogin = async () => {
       const { history } = this.props;
+      const historyFix = history;
 
       this.setState({ isLoading: true });
 
       await createUser({ name });
 
       this.setState({ isLoading: false });
-      history.push('/search');
+      historyFix.push('/search');
     };
 
     if (isLoading === true) return <Loading />;
@@ -58,7 +59,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 export default Login;

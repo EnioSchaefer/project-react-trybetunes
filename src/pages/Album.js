@@ -23,17 +23,20 @@ class Album extends Component {
 
     const albumName = data[0].collectionName;
 
+    const albumArtwork = data[0].artworkUrl100;
+
     const musicsData = data.filter((_element, index) => index !== 0);
 
     this.setState({
       artistName: name,
       albumName,
       musicsData,
+      albumArtwork,
     });
   }
 
   render() {
-    const { artistName, albumName, musicsData } = this.state;
+    const { artistName, albumName, musicsData, albumArtwork } = this.state;
     return (
       <>
         <Header />
@@ -41,7 +44,11 @@ class Album extends Component {
           <p>Album</p>
           <h3 data-testid="artist-name">{ artistName }</h3>
           <h4 data-testid="album-name">{ albumName }</h4>
-          {musicsData !== '' && <MusicCard musicsData={ musicsData } />}
+          {musicsData !== '' && <MusicCard
+            musicsData={ musicsData }
+            albumArtwork={ albumArtwork }
+            albumName={ albumName }
+          />}
         </div>
       </>
     );

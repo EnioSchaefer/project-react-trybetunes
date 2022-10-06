@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
@@ -12,7 +12,7 @@ class MusicCard extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { musicsData } = this.props;
     const musicDataArr = musicsData;
     const checkedArray = [];
@@ -20,11 +20,23 @@ class MusicCard extends Component {
       checkedArray.push(false);
     }
 
-    this.setState({ isChecked: checkedArray });
+    this.setState({ isLoading: true });
+
+    const favoriteSongs = await getFavoriteSongs();
+
+    favoriteSongs.forEach((song) => {
+      const indexFavorite = musicDataArr
+        .findIndex((music) => song.trackId === music.trackId);
+      checkedArray[indexFavorite] = true;
+
+      console.log(indexFavorite);
+    });
+
+    this.setState({ isLoading: false, isChecked: checkedArray });
   }
 
   render() {
-    const { musicsData } = this.props;
+    const { musicsData, albumArtwork, albumName } = this.props;
     const { isLoading, isChecked } = this.state;
     const musicDataArr = musicsData;
 
@@ -50,9 +62,9 @@ class MusicCard extends Component {
     const exists = !!isChecked;
     return (
       <div>
-        <img src={ musicsData[0].artworkUrl100 } alt={ musicsData[0].collectionName } />
+        <img src={ albumArtwork } alt={ `Artwork de ${albumName}` } />
         { musicDataArr.map((music, index) => (
-          <div key={ music.trackName }>
+          <div key={ music.trackId }>
             <p>{ music.trackName }</p>
             <label
               htmlFor={ music.trackId }
@@ -83,8 +95,9 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
-  musicsData: PropTypes.shape({
-  }).isRequired,
+  musicsData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  albumName: PropTypes.string.isRequired,
+  albumArtwork: PropTypes.string.isRequired,
 };
 
 export default MusicCard;
