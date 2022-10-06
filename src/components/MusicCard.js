@@ -28,8 +28,6 @@ class MusicCard extends Component {
       const indexFavorite = musicDataArr
         .findIndex((music) => song.trackId === music.trackId);
       checkedArray[indexFavorite] = true;
-
-      console.log(indexFavorite);
     });
 
     this.setState({ isLoading: false, isChecked: checkedArray });
@@ -44,7 +42,6 @@ class MusicCard extends Component {
       const checkedSong = event.target;
       const checkedSongPos = Number(checkedSong.id);
       isChecked[checkedSongPos] = !isChecked[checkedSongPos];
-      console.log(isChecked);
 
       const checkedSongId = checkedSong.value;
 
