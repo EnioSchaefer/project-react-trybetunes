@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
@@ -41,18 +41,28 @@ class MusicCard extends Component {
     const favoriteSong = async (event) => {
       const checkedSong = event.target;
       const checkedSongPos = Number(checkedSong.id);
-      isChecked[checkedSongPos] = !isChecked[checkedSongPos];
-
       const checkedSongId = checkedSong.value;
 
       const musicObject = musicDataArr
         .find((music) => music.trackId === Number(checkedSongId));
 
-      this.setState({ isLoading: true });
+      if (!checkedSong.checked) {
+        isChecked[checkedSongPos] = !isChecked[checkedSongPos];
 
-      await addSong(musicObject);
+        this.setState({ isLoading: true });
 
-      this.setState({ isLoading: false });
+        await removeSong(musicObject);
+
+        this.setState({ isLoading: false });
+      } else {
+        isChecked[checkedSongPos] = !isChecked[checkedSongPos];
+
+        this.setState({ isLoading: true });
+
+        await addSong(musicObject);
+
+        this.setState({ isLoading: false });
+      }
     };
 
     if (isLoading === true) return <Loading />;
